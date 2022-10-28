@@ -8,7 +8,6 @@ namespace Post.Command.Api.Commands
 {
     public class EditMessageCommand : BaseCommand
     {
-        public string Message { get; set; }
-        
+        public string Message { get; set; } = null!;
     }
 }
