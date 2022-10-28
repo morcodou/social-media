@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/SocialMedia.Post/SocialMedia.Post.sln"
+                "${workspaceFolder}/SocialMedia.Post.sln"
             ],
             "problemMatcher": "$msCompile"
         },
