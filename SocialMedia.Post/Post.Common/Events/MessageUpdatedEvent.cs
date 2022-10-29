@@ -8,7 +8,7 @@ namespace Post.Common.Events
 {
     public class MessageUpdatedEvent : BaseEvent
     {
-        public string Message { get; set; }
+        public string Message { get; set; } = null!;
         public MessageUpdatedEvent() : base(nameof(MessageUpdatedEvent))
         {
         }
