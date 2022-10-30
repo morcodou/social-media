@@ -37,7 +37,7 @@ namespace CQRS.Core.Domain
         }
 
         protected void RaiseEvent(BaseEvent @event) => ApplyChanges(@event, true);
-        protected void ReplayEvents(IEnumerable<BaseEvent> events) 
+        public void ReplayEvents(IEnumerable<BaseEvent> events) 
         {
             foreach (var @event in events)
             {

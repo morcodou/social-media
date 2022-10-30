@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace CQRS.Core.Exceptions
 {
-    public class AggragateNotFoundException : Exception
+    public class AggregateNotFoundException : Exception
     {
-        public AggragateNotFoundException(string message) : base(message)
+        public AggregateNotFoundException(string message) : base(message)
         {
 
         }

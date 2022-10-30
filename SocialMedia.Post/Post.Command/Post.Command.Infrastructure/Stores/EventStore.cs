@@ -19,12 +19,12 @@ namespace Post.Command.Infrastructure.Stores
             _eventStoreRepository = eventStoreRepository;
         }
 
-        public async Task<List<BaseEvent>> GetEventsAsync(Guid aggragateId)
+        public async Task<List<BaseEvent>> GetEventsAsync(Guid aggregateId)
         {
-            var eventStream = await _eventStoreRepository.FindByAggregateId(aggragateId);
+            var eventStream = await _eventStoreRepository.FindByAggregateId(aggregateId);
             if (eventStream == null || !eventStream.Any())
             {
-                throw new AggragateNotFoundException("Incorrect post Id provided");
+                throw new AggregateNotFoundException("Incorrect post Id provided");
             }
 
             return eventStream.OrderBy(x => x.Version)
@@ -32,9 +32,9 @@ namespace Post.Command.Infrastructure.Stores
                               .ToList();
         }
 
-        public async Task SaveEventsAsync(Guid aggragateId, IEnumerable<BaseEvent> events, int expectedVersion)
+        public async Task SaveEventsAsync(Guid aggregateId, IEnumerable<BaseEvent> events, int expectedVersion)
         {
-            var eventStream = await _eventStoreRepository.FindByAggregateId(aggragateId);
+            var eventStream = await _eventStoreRepository.FindByAggregateId(aggregateId);
             if (expectedVersion != -1 && eventStream[^1].Version != expectedVersion)
             {
                 throw new ConcurrencyException();
@@ -49,7 +49,7 @@ namespace Post.Command.Infrastructure.Stores
                 var eventModel = new EventModel()
                 {
                     TimeStamp = DateTime.Now,
-                    AggregateIdentifier = aggragateId,
+                    AggregateIdentifier = aggregateId,
                     AggregateType = nameof(PostAggregate),
                     Version = version,
                     EventType = eventType,
