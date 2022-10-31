@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CQRS.Core.Domain;
 using Post.Common.Events;
 
 namespace Post.Command.Domain.Aggregates
 {
-    public class PostAggregate : AggregateRoot
+    public sealed class PostAggregate : PostAggregateBase
     {
         private bool _active;
         private string _author = null!;
@@ -41,7 +36,7 @@ namespace Post.Command.Domain.Aggregates
             _author = @event.Author;
         }
 
-        public void EditMessage(string message)
+        public override void EditMessage(string message)
         {
             if (!_active)
             {
@@ -62,7 +57,7 @@ namespace Post.Command.Domain.Aggregates
 
         public void Apply(MessageUpdatedEvent @event) => _id = @event.Id;
 
-        public void LikePost()
+        public override void LikePost()
         {
             if (!_active)
             {
@@ -74,7 +69,7 @@ namespace Post.Command.Domain.Aggregates
 
         public void Apply(PostLikedEvent @event) => _id = @event.Id;
 
-        public void AddComment(string comment, string username)
+        public override void AddComment(string comment, string username)
         {
             if (!_active)
             {
@@ -107,7 +102,7 @@ namespace Post.Command.Domain.Aggregates
             _comments.Add(@event.CommentId, new Tuple<string, string>(@event.Comment, @event.Username));
         }
 
-        public void EditComment(Guid commentId, string comment, string username)
+        public override void EditComment(Guid commentId, string comment, string username)
         {
             if (!_active)
             {
@@ -137,7 +132,6 @@ namespace Post.Command.Domain.Aggregates
                 Username = username,
                 EditDate = DateTime.Now
             });
-
         }
 
         public void Apply(CommentUpdatedEvent @event)
@@ -146,7 +140,7 @@ namespace Post.Command.Domain.Aggregates
             _comments[@event.CommentId] = new Tuple<string, string>(@event.Comment, @event.Username);
         }
 
-        public void RemoveComment(Guid commentId, string username)
+        public override void RemoveComment(Guid commentId, string username)
         {
             if (!_active)
             {
@@ -176,7 +170,7 @@ namespace Post.Command.Domain.Aggregates
             _comments.Remove(@event.CommentId);
         }
 
-        public void DeletePost(string username)
+        public override void DeletePost(string username)
         {
             if (!_active)
             {

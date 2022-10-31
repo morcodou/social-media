@@ -1,25 +1,22 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CQRS.Core.Domain;
 using CQRS.Core.Handlers;
 using CQRS.Core.Infrastructure;
-using Post.Command.Domain.Aggregates;
 
 namespace Post.Command.Infrastructure.Handlers
 {
-    public class EventSourcingHandler : IEventSourcingHandler<PostAggregate>
+    public class EventSourcingHandler<TAggregate> : IEventSourcingHandler<TAggregate>
+        where TAggregate : AggregateRoot, new()
     {
         private readonly IEventStore _eventStore;
+
         public EventSourcingHandler(IEventStore eventStore)
         {
             _eventStore = eventStore;
         }
 
-        public async Task<PostAggregate> GetByIdAsync(Guid aggregateId)
+        public async Task<TAggregate> GetByIdAsync(Guid aggregateId)
         {
-            var aggregate = new PostAggregate();
+            TAggregate aggregate = new();
             var events = await _eventStore.GetEventsAsync(aggregateId);
             if (events == null || !events.Any()) return aggregate;
 

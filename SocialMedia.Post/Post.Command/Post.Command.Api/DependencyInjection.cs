@@ -13,6 +13,7 @@ using Post.Command.Infrastructure.Handlers;
 using Post.Command.Infrastructure.Repositories;
 using Post.Command.Infrastructure.Stores;
 using Post.Command.Domain.Aggregates;
+using Post.Command.Domain.Factories;
 
 namespace Post.Command.Api
 {
@@ -25,8 +26,9 @@ namespace Post.Command.Api
             
             services.AddScoped<IEventStoreRepository, EventStoreRepository>();
             services.AddScoped<IEventStore, EventStore>();
-            services.AddScoped<IEventSourcingHandler<PostAggregate>, EventSourcingHandler>();
-            services.AddScoped<ICommandHandler, CommandHandler>();
+            services.AddScoped<IEventSourcingHandler<PostAggregate>, EventSourcingHandler<PostAggregate>>();
+            services.AddScoped(typeof(IPostAggregateFactory<>), typeof(PostAggregateFactory));
+            services.AddScoped<ICommandHandler, CommandHandler<PostAggregate>>();
 
             services.RegisterCommandHandlers();
 
