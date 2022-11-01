@@ -60,7 +60,7 @@ namespace Post.Command.Infrastructure.Test.Dispatchers
             exception.Should().NotBeNull();
         }
 
-
+        [Fact]
         public async Task SendAsync_GivenRegisterCommandType_ShouldCallTheHandler()
         {
             // Arrange
