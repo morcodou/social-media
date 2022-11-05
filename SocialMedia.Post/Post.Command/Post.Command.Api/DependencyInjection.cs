@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CQRS.Core.Domain;
 using CQRS.Core.Handlers;
 using CQRS.Core.Infrastructure;
@@ -15,6 +11,8 @@ using Post.Command.Infrastructure.Stores;
 using Post.Command.Domain.Aggregates;
 using Post.Command.Domain.Factories;
 using Confluent.Kafka;
+using Post.Command.Infrastructure.Producers;
+using CQRS.Core.Producers;
 
 namespace Post.Command.Api
 {
@@ -27,6 +25,7 @@ namespace Post.Command.Api
             services.Configure<ProducerConfig>(configuration.GetSection(nameof(ProducerConfig)));
             
             services.AddScoped<IEventStoreRepository, EventStoreRepository>();
+            services.AddScoped<IEventProducer, EventProducer>();
             services.AddScoped<IEventStore, EventStore>();
             services.AddScoped<IEventSourcingHandler<PostAggregate>, EventSourcingHandler<PostAggregate>>();
             services.AddScoped(typeof(IPostAggregateFactory<>), typeof(PostAggregateFactory));
