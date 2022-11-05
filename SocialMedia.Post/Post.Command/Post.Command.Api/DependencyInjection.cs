@@ -14,6 +14,7 @@ using Post.Command.Infrastructure.Repositories;
 using Post.Command.Infrastructure.Stores;
 using Post.Command.Domain.Aggregates;
 using Post.Command.Domain.Factories;
+using Confluent.Kafka;
 
 namespace Post.Command.Api
 {
@@ -23,6 +24,7 @@ namespace Post.Command.Api
         {
 
             services.Configure<MongoDbConfig>(configuration.GetSection(nameof(MongoDbConfig)));
+            services.Configure<ProducerConfig>(configuration.GetSection(nameof(ProducerConfig)));
             
             services.AddScoped<IEventStoreRepository, EventStoreRepository>();
             services.AddScoped<IEventStore, EventStore>();
