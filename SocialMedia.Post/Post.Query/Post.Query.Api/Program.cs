@@ -1,4 +1,11 @@
+using Microsoft.EntityFrameworkCore;
+using Post.Query.Infrastructure.DataAccess;
+
 var builder = WebApplication.CreateBuilder(args);
+
+Action<DbContextOptionsBuilder> configureDbContext = (o => o.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
+builder.Services.AddDbContext<DatabaseContext>(configureDbContext);
+builder.Services.AddSingleton<DatabaseContextFactory>(new DatabaseContextFactory(configureDbContext));
 
 // Add services to the container.
 
