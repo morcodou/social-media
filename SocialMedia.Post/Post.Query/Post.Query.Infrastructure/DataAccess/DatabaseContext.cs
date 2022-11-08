@@ -15,7 +15,7 @@ namespace Post.Query.Infrastructure.DataAccess
 
         }
 
-        DbSet<PostEntity> Posts { get; set; }
-        DbSet<CommentEntity> Comments { get; set; }
+        public virtual DbSet<PostEntity> Posts { get; set; }
+        public virtual DbSet<CommentEntity> Comments { get; set; }
     }
 }
