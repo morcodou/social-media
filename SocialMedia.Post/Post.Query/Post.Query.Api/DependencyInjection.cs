@@ -1,6 +1,7 @@
 using Confluent.Kafka;
 using CQRS.Core.Consumers;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Post.Query.Domain.Repositories;
 using Post.Query.Infrastructure.Consumers;
 using Post.Query.Infrastructure.DataAccess;
@@ -24,6 +25,7 @@ public static class DependencyInjection
         services.AddScoped<IPostRepository, PostRepository>();
         services.AddScoped<IEventHandler, Infrastructure.Handlers.EventHandler>();
         services.AddScoped<IEventConsumer, EventConsumer>();
+        services.AddHostedService<ConsumerHostedService>();
 
         var dbContext = services.BuildServiceProvider().GetRequiredService<DatabaseContext>();
         dbContext.Database.EnsureCreated();
