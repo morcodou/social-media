@@ -22,7 +22,7 @@ namespace Post.Query.Infrastructure.Converters
             {
                 throw new JsonException($"Failed to paser {nameof(JsonDocument)}");
             }
-            if(!documment.RootElement.TryGetProperty("type", out var type))
+            if(!documment.RootElement.TryGetProperty("Type", out var type))
             {
                 throw new JsonException($"Could not detect the type discriminator property");
             }
