@@ -28,7 +28,7 @@ namespace Post.Command.Api
             services.AddScoped<IEventProducer, EventProducer>();
             services.AddScoped<IEventStore, EventStore>();
             services.AddScoped<IEventSourcingHandler<PostAggregate>, EventSourcingHandler<PostAggregate>>();
-            services.AddScoped(typeof(IPostAggregateFactory<>), typeof(PostAggregateFactory));
+            services.AddScoped<IPostAggregateFactory<PostAggregate>, PostAggregateFactory>();
             services.AddScoped<ICommandHandler, CommandHandler<PostAggregate>>();
 
             services.RegisterCommandHandlers();
