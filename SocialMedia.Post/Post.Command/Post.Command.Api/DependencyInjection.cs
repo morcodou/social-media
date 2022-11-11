@@ -13,6 +13,9 @@ using Post.Command.Domain.Factories;
 using Confluent.Kafka;
 using Post.Command.Infrastructure.Producers;
 using CQRS.Core.Producers;
+using MongoDB.Bson.Serialization;
+using CQRS.Core.Events;
+using Post.Common.Events;
 
 namespace Post.Command.Api
 {
@@ -20,10 +23,9 @@ namespace Post.Command.Api
     {
         public static IServiceCollection ConfigureServices(this IServiceCollection services, IConfiguration configuration)
         {
-
             services.Configure<MongoDbConfig>(configuration.GetSection(nameof(MongoDbConfig)));
             services.Configure<ProducerConfig>(configuration.GetSection(nameof(ProducerConfig)));
-            
+
             services.AddScoped<IEventStoreRepository, EventStoreRepository>();
             services.AddScoped<IEventProducer, EventProducer>();
             services.AddScoped<IEventStore, EventStore>();

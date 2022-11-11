@@ -1,17 +1,18 @@
-using CQRS.Core.Domain;
-using CQRS.Core.Infrastructure;
-using Post.Command.Api.Commands;
-using Post.Command.Api.Interfaces.Commands;
-using Post.Command.Domain.Aggregates;
-using Post.Command.Infrastructure.Configs;
-using Post.Command.Infrastructure.Handlers;
-using Post.Command.Infrastructure.Repositories;
-using Post.Command.Infrastructure.Stores;
-using CQRS.Core.Handlers;
-using Post.Command.Infrastructure.Dispatchers;
 using Post.Command.Api;
+using MongoDB.Bson.Serialization;
+using Post.Common.Events;
+using CQRS.Core.Events;
 
 var builder = WebApplication.CreateBuilder(args);
+
+BsonClassMap.RegisterClassMap<BaseEvent>();
+BsonClassMap.RegisterClassMap<PostCreatedEvent>();
+BsonClassMap.RegisterClassMap<PostRemovedEvent>();
+BsonClassMap.RegisterClassMap<CommentUpdatedEvent>();
+BsonClassMap.RegisterClassMap<MessageUpdatedEvent>();
+BsonClassMap.RegisterClassMap<CommentAddedEvent>();
+BsonClassMap.RegisterClassMap<CommentRemovedEvent>();
+BsonClassMap.RegisterClassMap<PostLikedEvent>();
 
 // Add services to the container.
 builder.Services.ConfigureServices(builder.Configuration);
