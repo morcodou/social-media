@@ -8,11 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 BsonClassMap.RegisterClassMap<BaseEvent>();
 BsonClassMap.RegisterClassMap<PostCreatedEvent>();
 BsonClassMap.RegisterClassMap<PostRemovedEvent>();
-BsonClassMap.RegisterClassMap<CommentUpdatedEvent>();
+BsonClassMap.RegisterClassMap<PostLikedEvent>();
 BsonClassMap.RegisterClassMap<MessageUpdatedEvent>();
+BsonClassMap.RegisterClassMap<CommentUpdatedEvent>();
 BsonClassMap.RegisterClassMap<CommentAddedEvent>();
 BsonClassMap.RegisterClassMap<CommentRemovedEvent>();
-BsonClassMap.RegisterClassMap<PostLikedEvent>();
 
 // Add services to the container.
 builder.Services.ConfigureServices(builder.Configuration);
