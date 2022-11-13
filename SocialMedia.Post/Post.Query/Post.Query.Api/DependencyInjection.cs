@@ -47,7 +47,7 @@ public static class DependencyInjection
         dispatcher.RegisterHandler<FindPostByIdQuery>(queryHandler.HandleAsync);
         dispatcher.RegisterHandler<FindPostsByAurhorQuery>(queryHandler.HandleAsync);
         dispatcher.RegisterHandler<FindPostsWithCommentsQuery>(queryHandler.HandleAsync);
-        dispatcher.RegisterHandler<FindPostWithLikes>(queryHandler.HandleAsync);
+        dispatcher.RegisterHandler<FindPostsWithLikes>(queryHandler.HandleAsync);
         services.AddSingleton<IQueryDispatcher<PostEntity>>(_ => dispatcher);
 
         return services;

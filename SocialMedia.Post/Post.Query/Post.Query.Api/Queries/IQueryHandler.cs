@@ -8,6 +8,6 @@ namespace Post.Query.Api.Queries
         Task<List<PostEntity>> HandleAsync(FindPostByIdQuery query);
         Task<List<PostEntity>> HandleAsync(FindPostsByAurhorQuery query);
         Task<List<PostEntity>> HandleAsync(FindPostsWithCommentsQuery query);
-        Task<List<PostEntity>> HandleAsync(FindPostWithLikes query);
+        Task<List<PostEntity>> HandleAsync(FindPostsWithLikes query);
     }
 }
