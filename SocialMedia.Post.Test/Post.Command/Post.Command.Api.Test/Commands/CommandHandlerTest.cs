@@ -140,7 +140,7 @@ namespace Post.Command.Api.Test.Commands
             var aggregate = Mock.Of<PostAggregateBase>();
 
             Mock.Get(aggregate)
-                .Setup(h => h.EditComment(command.Id, command.Comment, command.Username))
+                .Setup(h => h.EditComment(command.CommentId, command.Comment, command.Username))
                 .Verifiable();
             Mock.Get(_eventSourcingHandler)
                 .Setup(h => h.GetByIdAsync(command.Id))
@@ -154,7 +154,7 @@ namespace Post.Command.Api.Test.Commands
 
             // Assert
             Mock.Get(aggregate)
-                .Verify(h => h.EditComment(command.Id, command.Comment, command.Username), Times.Once);
+                .Verify(h => h.EditComment(command.CommentId, command.Comment, command.Username), Times.Once);
             Mock.Get(_eventSourcingHandler)
                 .Verify(h => h.GetByIdAsync(command.Id), Times.Once);
             Mock.Get(_eventSourcingHandler)
@@ -169,7 +169,7 @@ namespace Post.Command.Api.Test.Commands
             var aggregate = Mock.Of<PostAggregateBase>();
 
             Mock.Get(aggregate)
-                .Setup(h => h.RemoveComment(command.Id, command.Username))
+                .Setup(h => h.RemoveComment(command.CommentId, command.Username))
                 .Verifiable();
             Mock.Get(_eventSourcingHandler)
                 .Setup(h => h.GetByIdAsync(command.Id))
@@ -183,7 +183,7 @@ namespace Post.Command.Api.Test.Commands
 
             // Assert
             Mock.Get(aggregate)
-                .Verify(h => h.RemoveComment(command.Id, command.Username), Times.Once);
+                .Verify(h => h.RemoveComment(command.CommentId, command.Username), Times.Once);
             Mock.Get(_eventSourcingHandler)
                 .Verify(h => h.GetByIdAsync(command.Id), Times.Once);
             Mock.Get(_eventSourcingHandler)
