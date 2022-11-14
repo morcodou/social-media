@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CQRS.Core.Events;
 
 namespace CQRS.Core.Domain
@@ -10,5 +6,6 @@ namespace CQRS.Core.Domain
     {
         Task SaveAsync(EventModel @event);
         Task<List<EventModel>> FindByAggregateId(Guid aggregateId);
+        Task<List<EventModel>> FindAllAsync();
     }
 }

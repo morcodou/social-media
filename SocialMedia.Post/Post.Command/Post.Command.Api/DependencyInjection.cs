@@ -13,9 +13,6 @@ using Post.Command.Domain.Factories;
 using Confluent.Kafka;
 using Post.Command.Infrastructure.Producers;
 using CQRS.Core.Producers;
-using MongoDB.Bson.Serialization;
-using CQRS.Core.Events;
-using Post.Common.Events;
 
 namespace Post.Command.Api
 {
@@ -49,6 +46,7 @@ namespace Post.Command.Api
             dispatcher.RegisterHandler<EditCommentCommand>(commandHandler.HandleAsync);
             dispatcher.RegisterHandler<RemoveCommentCommand>(commandHandler.HandleAsync);
             dispatcher.RegisterHandler<DeletePostCommand>(commandHandler.HandleAsync);
+            dispatcher.RegisterHandler<RestoreReadDatabaseCommand>(commandHandler.HandleAsync);
             services.AddSingleton<ICommandDispatcher>(_ => dispatcher);
 
             return services;

@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Post.Command.Api.Commands;
 
 namespace Post.Command.Api.Interfaces.Commands
@@ -15,5 +11,6 @@ namespace Post.Command.Api.Interfaces.Commands
         Task HandleAsync(EditCommentCommand command);
         Task HandleAsync(RemoveCommentCommand command);
         Task HandleAsync(DeletePostCommand command);
+        Task HandleAsync(RestoreReadDatabaseCommand command);
     }
 }

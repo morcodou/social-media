@@ -1,5 +1,6 @@
 ﻿using CQRS.Core.Domain;
 using CQRS.Core.Infrastructure;
+using CQRS.Core.Producers;
 using Post.Command.Infrastructure.Handlers;
 
 namespace Post.Command.Infrastructure.Test.Handlers
@@ -15,11 +16,13 @@ namespace Post.Command.Infrastructure.Test.Handlers
 
         private readonly EventSourcingHandler<FakePostAggregate> _sut;
         private readonly IEventStore _eventStore;
+        private readonly IEventProducer _eventProducer;
 
         public EventSourcingHandlerTest()
         {
             _eventStore = Mock.Of<IEventStore>();
-            _sut = new(_eventStore);
+            _eventProducer = Mock.Of<IEventProducer>();
+            _sut = new(_eventStore, _eventProducer);
         }
     }
 }
