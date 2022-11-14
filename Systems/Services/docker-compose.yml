@@ -1,10 +1,27 @@
-version: "2"
 
 networks:
   kafka-net:
     driver: bridge
 
 services:
+  sql-container:
+    image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+    networks:
+      - kafka-net
+    restart: always
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: '$$tr0ngS@P@ssw0rd02'
+      MSSQL_PID: Express
+    ports:
+      - 1433:1433
+  mongo-container:
+    image: mongo:latest
+    networks:
+      - kafka-net
+    restart: always
+    ports:
+      - 27017:27017
   zookeeper-server:
     image: bitnami/zookeeper:latest
     networks:
