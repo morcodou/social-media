@@ -36,7 +36,7 @@ namespace Post.Query.Infrastructure.Repositories
             using var dbContext = _factory.Create();
             var commentEntity = await dbContext.Comments
                                     .FirstOrDefaultAsync(x => x.CommentId == commentId);
-            return commentEntity;
+            return commentEntity!;
         }
 
         public async Task UpdateAsync(CommentEntity comment)

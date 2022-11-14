@@ -39,13 +39,17 @@ namespace Post.Query.Infrastructure.Consumers
                 };
 
                 var @event = JsonSerializer.Deserialize<BaseEvent>(consumeResult.Message.Value, options);
-                var handlerMethod = _eventHandler.GetType().GetMethod("On", new Type[] { @event.GetType() });
+                var types = new List<Type>();
+                if (@event != null)
+                    types.Add(@event.GetType());
+
+                var handlerMethod = _eventHandler.GetType().GetMethod("On", types.ToArray());
                 if (handlerMethod == null)
                 {
                     throw new ArgumentNullException(nameof(handlerMethod), "Could not found event handler method");
                 }
 
-                handlerMethod.Invoke(_eventHandler, new object[] { @event });
+                handlerMethod.Invoke(_eventHandler, new object[] { @event! });
                 consumer.Commit(consumeResult);
             }
         }

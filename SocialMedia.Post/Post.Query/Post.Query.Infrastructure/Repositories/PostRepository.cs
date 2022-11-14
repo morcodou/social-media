@@ -37,7 +37,7 @@ namespace Post.Query.Infrastructure.Repositories
             var postEntity = await dbContext.Posts
                                     .Include(x => x.Comments)
                                     .FirstOrDefaultAsync(x => x.PostId == postId);
-            return postEntity;
+            return postEntity!;
         }
 
         public async Task<List<PostEntity>> ListAllAsync()
