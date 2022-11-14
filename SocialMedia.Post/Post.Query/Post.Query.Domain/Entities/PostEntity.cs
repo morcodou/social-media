@@ -12,6 +12,6 @@ namespace Post.Query.Domain.Entities
         public string Message { get; set; } = null!;
         public DateTime DatePosted { get; set; }
         public int Likes { get; set; }
-        public virtual ICollection<CommentEntity> Comments { get; set; } = new HashSet<CommentEntity> ();
+        public virtual ICollection<CommentEntity> Comments { get; set; } = new HashSet<CommentEntity>();
     }
 }

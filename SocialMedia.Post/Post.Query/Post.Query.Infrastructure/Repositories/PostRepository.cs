@@ -62,7 +62,7 @@ namespace Post.Query.Infrastructure.Repositories
             using var dbContext = _factory.Create();
             return await dbContext.Posts.AsNoTracking()
                 .Include(x => x.Comments).AsNoTracking()
-                .Where(x => x.Comments.SafeAny())
+                .Where(x => x.Comments.Any())
                 .ToListAsync();
         }
 
