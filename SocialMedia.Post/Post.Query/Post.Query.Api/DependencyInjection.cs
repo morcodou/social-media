@@ -17,9 +17,17 @@ public static class DependencyInjection
 {
     public static IServiceCollection ConfigureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        Action<DbContextOptionsBuilder> configureDbContext = (o =>
-        o.UseLazyLoadingProxies()
-        .UseSqlServer(configuration.GetConnectionString("SqlServer")));
+        Action<DbContextOptionsBuilder> configureDbContext = null!;
+        var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+        if (environment?.EndsWith("PostgreSQL") ?? false)
+        {
+            configureDbContext = (o => o.UseLazyLoadingProxies().UseNpgsql(configuration.GetConnectionString("PostgreSQL")));
+        }
+        else
+        {
+            configureDbContext = (o => o.UseLazyLoadingProxies().UseSqlServer(configuration.GetConnectionString("SqlServer")));
+        }
+
         services.AddDbContext<DatabaseContext>(configureDbContext);
         services.AddSingleton<DatabaseContextFactory>(new DatabaseContextFactory(configureDbContext));
 

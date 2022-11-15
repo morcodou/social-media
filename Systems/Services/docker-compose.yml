@@ -4,6 +4,16 @@ networks:
     driver: bridge
 
 services:
+  postgres-container:
+    image: bitnami/postgresql:latest
+    networks:
+      - kafka-net
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: '$$tr0ngS@P@ssw0rd02'
+    ports:
+      - 5432:5432
   sql-container:
     image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
     networks:
