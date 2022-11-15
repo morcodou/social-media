@@ -22,7 +22,6 @@ namespace Post.Command.Api.Controllers
         [HttpPost]
         public async Task<ActionResult> RestoreReadDatabaseAsync()
         {
-            var id = Guid.NewGuid();
             try
             {
                 var command = new RestoreReadDatabaseCommand();
