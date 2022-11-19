@@ -7,9 +7,9 @@ namespace Post.Query.Infrastructure.Repositories
 {
     public class PostRepository : IPostRepository
     {
-        private readonly DatabaseContextFactory _factory;
+        private readonly IDatabaseContextFactory _factory;
 
-        public PostRepository(DatabaseContextFactory factory)
+        public PostRepository(IDatabaseContextFactory factory)
         {
             _factory = factory;
         }

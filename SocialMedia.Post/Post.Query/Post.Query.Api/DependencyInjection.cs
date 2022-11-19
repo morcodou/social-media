@@ -28,10 +28,11 @@ public static class DependencyInjection
             configureDbContext = (o => o.UseLazyLoadingProxies().UseSqlServer(configuration.GetConnectionString("SqlServer")));
         }
 
-        services.AddDbContext<DatabaseContext>(configureDbContext);
-        services.AddSingleton<DatabaseContextFactory>(new DatabaseContextFactory(configureDbContext));
+        services.AddDbContext<IDatabaseContext, DatabaseContext>(configureDbContext);
+        services.AddSingleton<IDatabaseContextFactory>(new DatabaseContextFactory(configureDbContext));
 
         services.Configure<ConsumerConfig>(configuration.GetSection(nameof(ConsumerConfig)));
+        services.AddScoped<ICommentRepository, CommentRepository>();
         services.AddScoped<ICommentRepository, CommentRepository>();
         services.AddScoped<IPostRepository, PostRepository>();
         services.AddScoped<IQueryHandler, QueryHandler>();

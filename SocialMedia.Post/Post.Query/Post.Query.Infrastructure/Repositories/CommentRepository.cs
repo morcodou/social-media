@@ -7,23 +7,23 @@ namespace Post.Query.Infrastructure.Repositories
 {
     public class CommentRepository : ICommentRepository
     {
-        private readonly DatabaseContextFactory _factory;
+        private readonly IDatabaseContextFactory _databaseContextFactory;
 
-        public CommentRepository(DatabaseContextFactory factory)
+        public CommentRepository(IDatabaseContextFactory databaseContextFactory)
         {
-            _factory = factory;
+            _databaseContextFactory = databaseContextFactory;
         }
 
         public async Task CreateAsync(CommentEntity comment)
         {
-            using var dbContext = _factory.Create();
+            using var dbContext = _databaseContextFactory.Create();
             dbContext.Comments.Add(comment);
             await dbContext.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(Guid commentId)
         {
-            using var dbContext = _factory.Create();
+            using var dbContext = _databaseContextFactory.Create();
             var commentEntity = await GetByIdAsync(commentId);
             if (commentEntity == null) return;
 
@@ -33,7 +33,7 @@ namespace Post.Query.Infrastructure.Repositories
 
         public async Task<CommentEntity> GetByIdAsync(Guid commentId)
         {
-            using var dbContext = _factory.Create();
+            using var dbContext = _databaseContextFactory.Create();
             var commentEntity = await dbContext.Comments
                                     .FirstOrDefaultAsync(x => x.CommentId == commentId);
             return commentEntity!;
@@ -41,7 +41,7 @@ namespace Post.Query.Infrastructure.Repositories
 
         public async Task UpdateAsync(CommentEntity comment)
         {
-            using var dbContext = _factory.Create();
+            using var dbContext = _databaseContextFactory.Create();
             dbContext.Comments.Update(comment);
             await dbContext.SaveChangesAsync();
         }

@@ -2,7 +2,12 @@
 
 namespace Post.Query.Infrastructure.DataAccess
 {
-    public class DatabaseContextFactory
+    public interface IDatabaseContextFactory
+    {
+        IDatabaseContext Create();
+    }
+
+    public class DatabaseContextFactory : IDatabaseContextFactory
     {
         private readonly Action<DbContextOptionsBuilder> _builder;
 
@@ -11,10 +16,10 @@ namespace Post.Query.Infrastructure.DataAccess
             _builder = builder;
         }
 
-        public DatabaseContext Create()
+        public IDatabaseContext Create()
         {
-            DbContextOptionsBuilder<DatabaseContext> options = new ();
-            _builder (options);
+            DbContextOptionsBuilder<DatabaseContext> options = new();
+            _builder(options);
 
             return new DatabaseContext(options.Options);
         }
