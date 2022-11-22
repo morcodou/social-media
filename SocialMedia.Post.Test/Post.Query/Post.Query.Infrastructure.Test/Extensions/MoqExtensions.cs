@@ -7,7 +7,7 @@ namespace Moq
 {
     public static class MoqExtensions
     {
-        public static IReturnsResult<T> ReturnsDbSet<T, TEntity>(this ISetupGetter<T, DbSet<TEntity>> setupResult, IEnumerable<TEntity> entities, Mock<DbSet<TEntity>> dbSetMock = null) where T : class where TEntity : class
+        public static IReturnsResult<T> ReturnsDbSet<T, TEntity>(this ISetupGetter<T, DbSet<TEntity>> setupResult, IEnumerable<TEntity> entities, Mock<DbSet<TEntity>>? dbSetMock = null) where T : class where TEntity : class
         {
             dbSetMock = dbSetMock ?? new Mock<DbSet<TEntity>>();
 
@@ -16,7 +16,7 @@ namespace Moq
             return setupResult.Returns(dbSetMock.Object);
         }
 
-        public static IReturnsResult<T> ReturnsDbSet<T, TEntity>(this ISetup<T, DbSet<TEntity>> setupResult, IEnumerable<TEntity> entities, Mock<DbSet<TEntity>> dbSetMock = null) where T : class where TEntity : class
+        public static IReturnsResult<T> ReturnsDbSet<T, TEntity>(this ISetup<T, DbSet<TEntity>> setupResult, IEnumerable<TEntity> entities, Mock<DbSet<TEntity>>? dbSetMock = null) where T : class where TEntity : class
         {
             dbSetMock = dbSetMock ?? new Mock<DbSet<TEntity>>();
 
@@ -25,7 +25,7 @@ namespace Moq
             return setupResult.Returns(dbSetMock.Object);
         }
 
-        public static ISetupSequentialResult<DbSet<TEntity>> ReturnsDbSet<TEntity>(this ISetupSequentialResult<DbSet<TEntity>> setupResult, IEnumerable<TEntity> entities, Mock<DbSet<TEntity>> dbSetMock = null) where TEntity : class
+        public static ISetupSequentialResult<DbSet<TEntity>> ReturnsDbSet<TEntity>(this ISetupSequentialResult<DbSet<TEntity>> setupResult, IEnumerable<TEntity> entities, Mock<DbSet<TEntity>>? dbSetMock = null) where TEntity : class
         {
             dbSetMock = dbSetMock ?? new Mock<DbSet<TEntity>>();
 

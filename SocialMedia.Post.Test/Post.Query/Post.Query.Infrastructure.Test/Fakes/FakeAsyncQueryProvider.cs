@@ -24,7 +24,7 @@ namespace Post.Query.Infrastructure.Test.Fakes
 
         public object Execute(Expression expression)
         {
-            return this.innerQueryProvider.Execute(expression);
+            return this.innerQueryProvider.Execute(expression)!;
         }
 
         public TResult Execute<TResult>(Expression expression)
@@ -39,12 +39,12 @@ namespace Post.Query.Infrastructure.Test.Fakes
             var expectedResultType = typeof(TResult).GetGenericArguments()?.FirstOrDefault();
             if (expectedResultType == null)
             {
-                return default(TResult);
+                return default(TResult)!;
             }
 
             return (TResult)typeof(Task).GetMethod(nameof(Task.FromResult))
                 ?.MakeGenericMethod(expectedResultType)
-                .Invoke(null, new[] { result });
+                .Invoke(null, new[] { result })!;
         }
 
 

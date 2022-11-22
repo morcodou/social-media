@@ -2,7 +2,6 @@
 using Post.Query.Domain.Entities;
 using Post.Query.Infrastructure.DataAccess;
 using Post.Query.Infrastructure.Repositories;
-using Post.Query.Infrastructure.Test.Fakes;
 
 namespace Post.Query.Infrastructure.Test.Repositories
 {
@@ -78,10 +77,11 @@ namespace Post.Query.Infrastructure.Test.Repositories
         {
             // Arrange
             var commentId = _fixture.Create<Guid>();
+            var comments = _fixture.CreateMany<CommentEntity>().ToList();
             var databaseContext = Mock.Of<IDatabaseContext>();
             Mock.Get(databaseContext)
                 .Setup(c => c.Comments)
-                .ReturnsDbSet(new List<CommentEntity>());
+                .ReturnsDbSet(comments);
             Mock.Get(_databaseContextFactory)
                 .Setup(f => f.Create())
                 .Returns(databaseContext);
