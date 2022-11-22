@@ -2,6 +2,7 @@
 using Post.Query.Domain.Entities;
 using Post.Query.Infrastructure.DataAccess;
 using Post.Query.Infrastructure.Repositories;
+using Post.Query.Infrastructure.Test.Fakes;
 
 namespace Post.Query.Infrastructure.Test.Repositories
 {
@@ -26,8 +27,8 @@ namespace Post.Query.Infrastructure.Test.Repositories
         {
             // Arrange
             var comment = _fixture.Create<CommentEntity>();
-            var commentdbSet = Mock.Of<DbSet<CommentEntity>>();
-            var databaseContext = Mock.Of<IDatabaseContext>(x => x.Comments == commentdbSet);
+            var commentDbSet = Mock.Of<DbSet<CommentEntity>>();
+            var databaseContext = Mock.Of<IDatabaseContext>(x => x.Comments == commentDbSet);
 
             Mock.Get(_databaseContextFactory)
                 .Setup(f => f.Create())
@@ -39,93 +40,141 @@ namespace Post.Query.Infrastructure.Test.Repositories
             // Assert
             Mock.Get(_databaseContextFactory)
                 .Verify(f => f.Create(), Times.Once);
-            Mock.Get(commentdbSet)
+            Mock.Get(commentDbSet)
                 .Verify(d => d.Add(comment), Times.Once);
             Mock.Get(databaseContext)
                 .Verify(d => d.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
         }
 
-        // [Fact]
-        // public async Task GetByIdAsync_GivenExistingId_ShouldReturnsComment()
-        // {
-        //     // Arrange
-        //     var Id = _fixture.Create<Guid>();
-        //     var comment = _fixture.Build<CommentEntity>()
-        //                           .With(x => x.CommentId, Id)
-        //                           .Create();
-        //     var comments = new List<CommentEntity>() { comment };
-        //     var commentDbSet = MockDbSetExtensions.CreateMockDbSet(comments);
-        //     //Mock.Get(commentdbSet).SetMockAsyncDbSet(new List<CommentEntity>() { comment });
-        //     var databaseContext = Mock.Of<IDatabaseContext>(x => x.Comments == commentDbSet.Object);
+        [Fact]
+        public async Task GetByIdAsync_GivenId_ShouldReturnsComment()
+        {
+            // Arrange
+            var comment = _fixture.Create<CommentEntity>();
+            var commentId = comment.CommentId;
+            var comments = _fixture.CreateMany<CommentEntity>().ToList();
+            comments.Add(comment);
 
-        //     Mock.Get(_databaseContextFactory)
-        //         .Setup(f => f.Create())
-        //         .Returns(databaseContext);
+            var databaseContext = Mock.Of<IDatabaseContext>();
+            Mock.Get(databaseContext)
+                .Setup(c => c.Comments)
+                .ReturnsDbSet(comments);
+            Mock.Get(_databaseContextFactory)
+                .Setup(f => f.Create())
+                .Returns(databaseContext);
 
-        //     // Act
-        //     var result = await _sut.GetByIdAsync(comment.CommentId);
+            // Act
+            var result = await _sut.GetByIdAsync(commentId);
 
-        //     // Assert
-        //     Mock.Get(_databaseContextFactory)
-        //         .Verify(f => f.Create(), Times.Once);
-        // }
+            // Assert
+            result.Should().NotBeNull();
+            result.Should().Be(comment);
+            Mock.Get(_databaseContextFactory)
+               .Verify(f => f.Create(), Times.Once);
+        }
 
-        // [Fact]
-        // public async Task GetByIdAsync_GivenExistingId_ShouldReturnsComment_New()
-        // {
-        //     var mockedDbContext = Create.MockedDbContextFor<DatabaseContext>();
-        //     var comments = _fixture.CreateMany<CommentEntity>().ToList();
-        //     mockedDbContext.Set<CommentEntity>().AddRange(comments);
+        [Fact]
+        public async Task GetByIdAsync_GivenNotFoundId_ShouldReturnsNull()
+        {
+            // Arrange
+            var commentId = _fixture.Create<Guid>();
+            var databaseContext = Mock.Of<IDatabaseContext>();
+            Mock.Get(databaseContext)
+                .Setup(c => c.Comments)
+                .ReturnsDbSet(new List<CommentEntity>());
+            Mock.Get(_databaseContextFactory)
+                .Setup(f => f.Create())
+                .Returns(databaseContext);
 
+            // Act
+            var result = await _sut.GetByIdAsync(commentId);
 
-        //     var Id = comments.FirstOrDefault().CommentId;
+            // Assert
+            result.Should().BeNull();
+            Mock.Get(_databaseContextFactory)
+               .Verify(f => f.Create(), Times.Once);
+        }
 
-        //     // var comment = _fixture.Build<CommentEntity>()
-        //     //           .With(x => x.CommentId, Id)
-        //     //           .Create();
-        //     // var comments = new List<CommentEntity>() { comment }.AsQueryable();
+        [Fact]
+        public async Task UpdateAsync_GivenComment_ShouldUpdateComment()
+        {
+            // Arrange
+            var comment = _fixture.Create<CommentEntity>();
+            var commentDbSet = Mock.Of<DbSet<CommentEntity>>();
+            var databaseContext = Mock.Of<IDatabaseContext>(x => x.Comments == commentDbSet);
 
-        //     // var mockSet = new Mock<DbSet<CommentEntity>>();
-        //     // mockSet.As<IDbAsyncEnumerable<CommentEntity>>()
-        //     // .Setup(m => m.GetAsyncEnumerator())
-        //     //     .Returns(new TestDbAsyncEnumerator<CommentEntity>(comments.GetEnumerator()));
+            Mock.Get(_databaseContextFactory)
+                .Setup(f => f.Create())
+                .Returns(databaseContext);
 
-        //     // var provider = Mock.Of<IAsyncQueryProvider>();
-        //     // mockSet.As<IQueryable<CommentEntity>>()
-        //     // .Setup(m => m.Provider)
-        //     //     // .Returns(provider);
-        //     //     .Returns(new TestDbAsyncQueryProvider<CommentEntity>(comments.Provider));
+            // Act
+            await _sut.UpdateAsync(comment);
 
-        //     // Mock.Get(provider)
-        //     //   .Setup(f => f.ExecuteAsync<CommentEntity>(It.IsAny<Expression>(), It.IsAny<CancellationToken>()))
-        //     //   .Returns(comment);
+            // Assert
+            Mock.Get(_databaseContextFactory)
+               .Verify(f => f.Create(), Times.Once);
+            Mock.Get(databaseContext)
+                .Verify(f => f.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+            Mock.Get(commentDbSet)
+                .Verify(f => f.Update(comment), Times.Once);
+        }
 
-        //     // mockSet.As<IQueryable<CommentEntity>>().Setup(m => m.Expression).Returns(comments.Expression);
-        //     // mockSet.As<IQueryable<CommentEntity>>().Setup(m => m.ElementType).Returns(comments.ElementType);
-        //     // mockSet.As<IQueryable<CommentEntity>>().Setup(m => m.GetEnumerator()).Returns(() => comments.GetEnumerator());
+        [Fact]
+        public async Task DeleteAsync_GivenNotFoundId_ShouldNotRemoveComment()
+        {
+            // Arrange
+            var commentId = _fixture.Create<Guid>();
+            var comments = _fixture.CreateMany<CommentEntity>().ToList();
+            var commentDbSet = new Mock<DbSet<CommentEntity>>();
+            var databaseContext = Mock.Of<IDatabaseContext>();
+            Mock.Get(databaseContext)
+                .Setup(c => c.Comments)
+                .ReturnsDbSet(comments, commentDbSet);
+            Mock.Get(_databaseContextFactory)
+                .Setup(f => f.Create())
+                .Returns(databaseContext);
 
-        //     // var mockContext = new Mock<IDatabaseContext>();
-        //     // mockContext.Setup(c => c.Comments).Returns(mockSet.Object);
+            // Act
+            await _sut.DeleteAsync(commentId);
 
-        //     Mock.Get(_databaseContextFactory)
-        //       .Setup(f => f.Create())
-        //       .Returns(mockedDbContext);
+            // Assert
+            Mock.Get(_databaseContextFactory)
+               .Verify(f => f.Create(), Times.AtLeastOnce);
+            Mock.Get(databaseContext)
+                .Verify(f => f.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
+            commentDbSet
+                .Verify(f => f.Remove(It.IsAny<CommentEntity>()), Times.Never);
+        }
 
-        //     // // Act
-        //     // // var result0 = await mockSet.Object.FindAsync();
-        //     var result = await _sut.GetByIdAsync(Id!);
+        [Fact]
+        public async Task DeleteAsync_GivenId_ShouldRemoveComment()
+        {
+            // Arrange
+            var comment = _fixture.Create<CommentEntity>();
+            var commentId = comment.CommentId;
+            var comments = _fixture.CreateMany<CommentEntity>().ToList();
+            comments.Add(comment);
 
-        //     // Assert
-        //     Mock.Get(_databaseContextFactory)
-        //         .Verify(f => f.Create(), Times.Once);
+            var commentDbSet = new Mock<DbSet<CommentEntity>>();
+            var databaseContext = Mock.Of<IDatabaseContext>();
+            Mock.Get(databaseContext)
+                .Setup(c => c.Comments)
+                .ReturnsDbSet(comments, commentDbSet);
+            Mock.Get(_databaseContextFactory)
+                .Setup(f => f.Create())
+                .Returns(databaseContext);
 
-        //     //var service = new BlogService(mockContext.Object);
-        //     //var blogs = await service.GetAllBlogsAsync();
+            // Act
+            await _sut.DeleteAsync(commentId);
 
-        //     //Assert.AreEqual(3, blogs.Count);
-        //     //Assert.AreEqual("AAA", blogs[0].Name);
-        //     //Assert.AreEqual("BBB", blogs[1].Name);
-        //     //Assert.AreEqual("ZZZ", blogs[2].Name);
-        // }
+            // Assert
+            Mock.Get(_databaseContextFactory)
+               .Verify(f => f.Create(), Times.AtLeastOnce);
+            Mock.Get(databaseContext)
+                .Verify(f => f.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+            commentDbSet
+                .Verify(f => f.Remove(comment), Times.Once);
+        }
+
     }
 }
