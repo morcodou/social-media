@@ -7,20 +7,20 @@ namespace Post.Query.Infrastructure.Consumers
 {
     public class ConsumerHostedService : IHostedService
     {
-        private readonly ILogger<ConsumerHostedService> _looger;
+        private readonly ILogger<ConsumerHostedService> _logger;
         private readonly IServiceProvider _serviceProvider;
 
         public ConsumerHostedService(
-            ILogger<ConsumerHostedService> looger,
+            ILogger<ConsumerHostedService> logger,
             IServiceProvider serviceProvider)
         {
-            _looger = looger;
+            _logger = logger;
             _serviceProvider = serviceProvider;
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            _looger.LogInformation("Event consumer service running");
+            _logger.LogInformation("Event consumer service running");
 
             using var scope = _serviceProvider.CreateScope();
             var eventConsumer = scope.ServiceProvider.GetService<IEventConsumer>();
@@ -33,7 +33,7 @@ namespace Post.Query.Infrastructure.Consumers
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            _looger.LogInformation("Event consumer service stooped");
+            _logger.LogInformation("Event consumer service stopped");
 
             return Task.CompletedTask;
         }
