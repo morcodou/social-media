@@ -10,30 +10,23 @@ namespace Post.Query.Api.Queries
         {
             _postRepository = postRepository;
         }
-        public async Task<List<PostEntity>> HandleAsync(FindAllPostsQuery query)
-        {
-            return await _postRepository.ListAllAsync();
-        }
+        public async Task<List<PostEntity>> HandleAsync(FindAllPostsQuery query) =>
+            await _postRepository.ListAllAsync();
 
         public async Task<List<PostEntity>> HandleAsync(FindPostByIdQuery query)
         {
             var postEntity = await _postRepository.GetByIdAsync(query.Id);
-            return new List<PostEntity>() { postEntity };
+            var postEntities = new List<PostEntity>() { postEntity };
+            return postEntities.OfType<PostEntity>().ToList();
         }
 
-        public async Task<List<PostEntity>> HandleAsync(FindPostsByAurhorQuery query)
-        {
-            return await _postRepository.ListByAuthorAsync(query.Author);
-        }
+        public async Task<List<PostEntity>> HandleAsync(FindPostsByAurhorQuery query) =>
+            await _postRepository.ListByAuthorAsync(query.Author);
 
-        public async Task<List<PostEntity>> HandleAsync(FindPostsWithCommentsQuery query)
-        {
-            return await _postRepository.ListWithCommentsAsync();
-        }
+        public async Task<List<PostEntity>> HandleAsync(FindPostsWithCommentsQuery query) =>
+            await _postRepository.ListWithCommentsAsync();
 
-        public async Task<List<PostEntity>> HandleAsync(FindPostsWithLikesQuery query)
-        {
-            return await _postRepository.ListWithLikesAsync(query.NumberOfLikes);
-        }
+        public async Task<List<PostEntity>> HandleAsync(FindPostsWithLikesQuery query) =>
+            await _postRepository.ListWithLikesAsync(query.NumberOfLikes);
     }
 }
