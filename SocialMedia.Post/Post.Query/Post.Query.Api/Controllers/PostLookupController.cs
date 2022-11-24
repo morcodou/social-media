@@ -138,7 +138,7 @@ namespace Post.Query.Api.Controllers
         {
             try
             {
-                var query = new FindPostsWithLikes() { NumberOfLikes = numberOfLikes} ;
+                var query = new FindPostsWithLikesQuery() { NumberOfLikes = numberOfLikes} ;
                 var posts = await _dispatcher.SendAsync(query);
                 if (!posts.SafeAny())
                     return NoContent();

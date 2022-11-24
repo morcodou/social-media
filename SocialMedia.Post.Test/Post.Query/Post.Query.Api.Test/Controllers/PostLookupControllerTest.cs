@@ -272,7 +272,7 @@ namespace Post.Query.Api.Test.Controllers
             var getResult = () => _sut.GetPostsWithLikesAsync(numberOfLikes);
 
             // Act
-            await GivenNoPosts<FindPostsWithLikes>(getResult);
+            await GivenNoPosts<FindPostsWithLikesQuery>(getResult);
         }
 
         [Fact]
@@ -283,7 +283,7 @@ namespace Post.Query.Api.Test.Controllers
             var getResult = () => _sut.GetPostsWithLikesAsync(numberOfLikes);
 
             // Act
-            await GivenPosts<FindPostsWithLikes>(getResult);
+            await GivenPosts<FindPostsWithLikesQuery>(getResult);
         }
 
         [Fact]
@@ -294,7 +294,7 @@ namespace Post.Query.Api.Test.Controllers
             var getResult = () => _sut.GetPostsWithLikesAsync(numberOfLikes);
 
             // Act
-            await GivenException<FindPostsWithLikes>(getResult);
+            await GivenException<FindPostsWithLikesQuery>(getResult);
         }
 
         #endregion GetPostsWithLikesAsync
