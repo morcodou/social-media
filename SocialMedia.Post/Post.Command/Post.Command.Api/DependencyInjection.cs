@@ -24,6 +24,7 @@ namespace Post.Command.Api
             services.Configure<ProducerConfig>(configuration.GetSection(nameof(ProducerConfig)));
 
             services.AddScoped<IEventStoreRepository, EventStoreRepository>();
+            services.AddScoped<IKafkaProducerBuilder, KafkaProducerBuilder>();
             services.AddScoped<IEventProducer, EventProducer>();
             services.AddScoped<IEventStore, EventStore>();
             services.AddScoped<IEventSourcingHandler<PostAggregate>, EventSourcingHandler<PostAggregate>>();
