@@ -55,6 +55,7 @@ namespace Post.Query.Api.Test.Queries
                 .BeEquivalentTo(new List<PostEntity>() { post });
         }
 
+        [Fact]
         public async Task HandleAsync_GivenNotFoundFindPostByIdQuery_ReturnsEmpty()
         {
             // Arrange
