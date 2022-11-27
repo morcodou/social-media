@@ -52,7 +52,7 @@ namespace Post.Command.Infrastructure.Test.Producers
 
         [Theory]
         [InlineData(PersistenceStatus.NotPersisted)]
-        public async Task ProduceAsync_Given_ShouldReturnsPersisted(PersistenceStatus status)
+        public async Task ProduceAsync_GivenEvent_ShouldThrowException(PersistenceStatus status)
         {
             // Arrange
             var producer = Mock.Of<IProducer<string, string>>();
