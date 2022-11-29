@@ -23,5 +23,8 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
+    <ItemGroup>
+    <ProjectReference Include="..\..\..\SocialMedia.Post\Post.Command\Post.Command.Domain\Post.Command.Domain.csproj" />
+  </ItemGroup>
 
 </Project>

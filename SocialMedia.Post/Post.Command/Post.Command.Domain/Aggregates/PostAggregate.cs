@@ -119,6 +119,11 @@ namespace Post.Command.Domain.Aggregates
                 throw new InvalidOperationException($"The value of {nameof(username)} cannot be null or empty. Please provide a valid {nameof(username)}");
             }
 
+            if (!_comments.ContainsKey(commentId))
+            {
+                throw new InvalidOperationException($"You cannot edit a none existing comment");
+            }
+
             if (!_comments[commentId].Item2.Equals(username, StringComparison.CurrentCultureIgnoreCase))
             {
                 throw new InvalidOperationException("Your are not allowed to edit a comment that was made by another user");
@@ -152,6 +157,11 @@ namespace Post.Command.Domain.Aggregates
                 throw new InvalidOperationException($"The value of {nameof(username)} cannot be null or empty. Please provide a valid {nameof(username)}");
             }
 
+            if (!_comments.ContainsKey(commentId))
+            {
+                throw new InvalidOperationException($"You cannot remove a none existing comment");
+            }
+
             if (!_comments[commentId].Item2.Equals(username, StringComparison.CurrentCultureIgnoreCase))
             {
                 throw new InvalidOperationException("Your are not allowed to remove a comment that was made by another user");
@@ -170,14 +180,14 @@ namespace Post.Command.Domain.Aggregates
             _comments.Remove(@event.CommentId);
         }
 
-        public override void DeletePost(string username)
+        public override void DeletePost(string author)
         {
             if (!_active)
             {
                 throw new InvalidOperationException("The post has already been removed!");
             }
 
-            if (!_author.Equals(username, StringComparison.CurrentCultureIgnoreCase))
+            if (!_author.Equals(author, StringComparison.CurrentCultureIgnoreCase))
             {
                 throw new InvalidOperationException("Your are not allowed to delete a post that was made by another user");
             }
