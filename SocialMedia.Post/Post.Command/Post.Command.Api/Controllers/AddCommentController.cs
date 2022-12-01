@@ -29,7 +29,7 @@ namespace Post.Command.Api.Controllers
                 command.Id = id;
                 await _dispatcher.SendAsync(command);
 
-                return Ok(new NewPostResponse()
+                return Ok(new CommentPostResponse()
                 {
                     Id = id,
                     Message = "Add comment request completed successfully!"
@@ -55,9 +55,8 @@ namespace Post.Command.Api.Controllers
             {
                 var errorMessage = "An error occurred while processing request to add comment!";
                 _logger.LogError(exception, errorMessage);
-                return StatusCode(StatusCodes.Status500InternalServerError, new NewPostResponse()
+                return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponse()
                 {
-                    Id = id,
                     Message = errorMessage
                 });
             }

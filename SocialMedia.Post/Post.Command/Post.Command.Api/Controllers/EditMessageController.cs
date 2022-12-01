@@ -29,7 +29,7 @@ namespace Post.Command.Api.Controllers
                 command.Id = id;
                 await _dispatcher.SendAsync(command);
 
-                return Ok(new NewPostResponse()
+                return Ok(new PostResponse()
                 {
                     Id = id,
                     Message = "Edit message request completed successfully!"
@@ -55,7 +55,7 @@ namespace Post.Command.Api.Controllers
             {
                 var errorMessage = "An error occurred while processing request to edit the message!";
                 _logger.LogError(exception, errorMessage);
-                return StatusCode(StatusCodes.Status500InternalServerError, new NewPostResponse()
+                return StatusCode(StatusCodes.Status500InternalServerError, new PostResponse()
                 {
                     Id = id,
                     Message = errorMessage

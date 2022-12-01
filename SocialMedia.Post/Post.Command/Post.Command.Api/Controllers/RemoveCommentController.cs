@@ -54,7 +54,7 @@ namespace Post.Command.Api.Controllers
             {
                 var errorMessage = "An error occurred while processing request to remove comment!";
                 _logger.LogError(exception, errorMessage);
-                return StatusCode(StatusCodes.Status500InternalServerError, new NewPostResponse()
+                return StatusCode(StatusCodes.Status500InternalServerError, new PostResponse()
                 {
                     Id = id,
                     Message = errorMessage
