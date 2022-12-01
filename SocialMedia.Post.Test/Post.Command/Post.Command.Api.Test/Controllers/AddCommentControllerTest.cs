@@ -11,7 +11,7 @@ using Post.Common.Dtos;
 
 namespace Post.Command.Api.Test.Controllers
 {
-    public class AddCommentControllerTest
+    public class AddCommentControllerTest : ControllerFixtureBase
     {
         private readonly AddCommentController _sut;
         private readonly ILogger<AddCommentController> _logger;
@@ -60,7 +60,7 @@ namespace Post.Command.Api.Test.Controllers
             var addCommentAsync = nameof(AddCommentController.AddCommentAsync);
 
             // Act
-            WithHttpPutAttribute(addCommentAsync, template);
+            WithHttpPutAttribute<AddCommentController>(addCommentAsync, template);
         }
 
         [Fact]
@@ -152,18 +152,6 @@ namespace Post.Command.Api.Test.Controllers
             Mock.Get(_dispatcher)
                 .Verify(x => x.SendAsync(command), Times.Once);
             _logger.VerifyLoggerWarning(message);
-        }
-
-        private void WithHttpPutAttribute(string methodName, string? template = null)
-        {
-            // Arrange
-            var attributeFunc = (HttpPutAttribute attribute) => attribute != null && attribute.Template == template;
-
-            // Act
-            var decorated = AttributeExtensions.IsDecoratedWithAttribute<AddCommentController, HttpPutAttribute>(attributeFunc, methodName);
-
-            // Assert
-            decorated.Should().BeTrue();
         }
     }
 }
