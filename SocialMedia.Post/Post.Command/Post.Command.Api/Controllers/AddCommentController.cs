@@ -9,16 +9,11 @@ namespace Post.Command.Api.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class AddCommentController : ControllerBase
+    public class AddCommentController : CommandControllerBase<AddCommentController>
     {
-        private readonly ILogger<AddCommentController> _logger;
-        private readonly ICommandDispatcher _dispatcher;
-        public AddCommentController(
-            ILogger<AddCommentController> logger,
-            ICommandDispatcher dispatcher)
+        public AddCommentController(ILogger<AddCommentController> logger, ICommandDispatcher dispatcher) 
+                : base(logger, dispatcher)
         {
-            _logger = logger;
-            _dispatcher = dispatcher;
         }
 
         [HttpPut("{id}")]

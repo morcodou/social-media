@@ -1,67 +1,32 @@
-using CQRS.Core.Commands;
-using CQRS.Core.Exceptions;
-using CQRS.Core.Infrastructure;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Post.Command.Api.Commands;
 using Post.Command.Api.Controllers;
 using Post.Command.Api.Dtos;
-using Post.Common.Dtos;
 
 namespace Post.Command.Api.Test.Controllers
 {
-    public class AddCommentControllerTest : ControllerFixtureBase
+    public class AddCommentControllerTest : ControllerFixtureBase<AddCommentController>
     {
         private readonly AddCommentController _sut;
-        private readonly ILogger<AddCommentController> _logger;
-        private readonly ICommandDispatcher _dispatcher;
-        private readonly Fixture _fixture;
+        private const string _METHODENAME = nameof(AddCommentController.AddCommentAsync);
+        private const string _ATTRIBUTETEMPLATE = "{id}";
+
         public AddCommentControllerTest()
         {
-            _logger = Mock.Of<ILogger<AddCommentController>>();
-            _dispatcher = Mock.Of<ICommandDispatcher>();
             _sut = new(_logger, _dispatcher);
-
-            _fixture = new();
         }
 
         [Fact]
-        public void AddCommentController_ShouldBe_Decorated_With_ApiControllerAttribute()
-        {
-            // Arrange
-            var attributeFunc = (ApiControllerAttribute attribute) => attribute != null;
-
-            // Act
-            var decorated = AttributeExtensions.IsDecoratedWithAttribute<AddCommentController, ApiControllerAttribute>(attributeFunc);
-
-            // Assert
-            decorated.Should().BeTrue();
-        }
+        public void AddCommentController_ShouldBe_Decorated_With_ApiControllerAttribute() =>
+                    Controller_ShouldBe_Decorated_With_ApiControllerAttribute();
 
         [Fact]
-        public void AddCommentController_ShouldBe_Decorated_With_RouteAttribute()
-        {
-            // Arrange
-            var attributeFunc = (RouteAttribute attribute) => attribute != null && attribute.Template == "api/v1/[controller]";
-
-            // Act
-            var decorated = AttributeExtensions.IsDecoratedWithAttribute<AddCommentController, RouteAttribute>(attributeFunc);
-
-            // Assert
-            decorated.Should().BeTrue();
-        }
+        public void AddCommentController_ShouldBe_Decorated_With_RouteAttribute() =>
+                    Controller_ShouldBe_Decorated_With_RouteAttribute();
 
         [Fact]
-        public void AddCommentAsync_ShouldBe_Decorated_With_HttpGetAttribute()
-        {
-            // Arrange
-            var template = "{id}";
-            var addCommentAsync = nameof(AddCommentController.AddCommentAsync);
-
-            // Act
-            WithHttpPutAttribute<AddCommentController>(addCommentAsync, template);
-        }
+        public void AddCommentAsync_ShouldBe_Decorated_With_HttpGetAttribute() =>
+                    WithHttpPutAttribute(_METHODENAME, _ATTRIBUTETEMPLATE);
 
         [Fact]
         public async Task AddCommentAsync_GivenIdAndAddCommentCommand_ShouldReturnsOkResponse()
@@ -92,66 +57,36 @@ namespace Post.Command.Api.Test.Controllers
             // Arrange
             var id = _fixture.Create<Guid>();
             var command = _fixture.Create<AddCommentCommand>();
-            var exception = new Exception("unhandle_exception");
+            var action = () => _sut.AddCommentAsync(id, command);
             var message = "An error occurred while processing request to add comment!";
-            Mock.Get(_dispatcher)
-                 .Setup(x => x.SendAsync(It.IsAny<BaseCommand>()))
-                 .ThrowsAsync(exception);
 
             // Act
-            var result = await _sut.AddCommentAsync(id, command) as ObjectResult;
-
-            // Assert
-            result.Should().NotBeNull();
-            result!.StatusCode.Should().Be(StatusCodes.Status500InternalServerError);
-            var response = result!.Value as BaseResponse;
-            response!.Message.Should().Be(message);
-            Mock.Get(_dispatcher)
-                .Verify(x => x.SendAsync(command), Times.Once);
-            _logger.VerifyLoggerError(message);
+            await UnhandleException_ShouldReturnsInternalServerError(action, command, message);
         }
 
         [Fact]
         public async Task AddCommentAsync_GivenInvalidOperationException_ShouldReturnsBadRequest()
         {
             // Arrange
-            var exception = new InvalidOperationException("invalid_operation_exception_message");
-            var message = "Client made a bad request!";
+            var id = _fixture.Create<Guid>();
+            var command = _fixture.Create<AddCommentCommand>();
+            var action = () => _sut.AddCommentAsync(id, command);
 
             // Act
-            await AddCommentAsync_ShouldReturnsBadRequest(exception, message);
+            await InvalidOperationException_ShouldReturnsBadRequest(action, command);
         }
 
         [Fact]
         public async Task AddCommentAsync_GivenAggregateNotFoundException_ShouldReturnsBadRequest()
         {
             // Arrange
-            var exception = new AggregateNotFoundException("aggregate_not_found_exception_message");
+            var id = _fixture.Create<Guid>();
+            var command = _fixture.Create<AddCommentCommand>();
+            var action = () => _sut.AddCommentAsync(id, command);
             var message = "Could not retrieve aggregate, client passe incorrect post Id targeting the aggregate!";
 
             // Act
-            await AddCommentAsync_ShouldReturnsBadRequest(exception, message);
-        }
-
-        private async Task AddCommentAsync_ShouldReturnsBadRequest(Exception exception, string message)
-        {
-            // Arrange
-            var id = _fixture.Create<Guid>();
-            var command = _fixture.Create<AddCommentCommand>();
-            Mock.Get(_dispatcher)
-                 .Setup(x => x.SendAsync(It.IsAny<BaseCommand>()))
-                 .ThrowsAsync(exception);
-
-            // Act
-            var result = await _sut.AddCommentAsync(id, command) as BadRequestObjectResult;
-
-            // Assert
-            result.Should().NotBeNull();
-            var response = result!.Value as BaseResponse;
-            response!.Message.Should().Be(exception.Message);
-            Mock.Get(_dispatcher)
-                .Verify(x => x.SendAsync(command), Times.Once);
-            _logger.VerifyLoggerWarning(message);
+            await AggregateNotFoundException_ShouldReturnsBadRequest(action, command, message);
         }
     }
 }

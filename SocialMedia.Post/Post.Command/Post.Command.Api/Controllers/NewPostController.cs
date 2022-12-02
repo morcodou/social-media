@@ -8,16 +8,11 @@ namespace Post.Command.Api.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class NewPostController : ControllerBase
+    public class NewPostController : CommandControllerBase<NewPostController>
     {
-        private readonly ILogger<NewPostController> _logger;
-        private readonly ICommandDispatcher _dispatcher;
-        public NewPostController(
-            ILogger<NewPostController> logger,
-            ICommandDispatcher dispatcher)
+        public NewPostController(ILogger<NewPostController> logger, ICommandDispatcher dispatcher)
+            : base(logger, dispatcher)
         {
-            _logger = logger;
-            _dispatcher = dispatcher;
         }
 
         [HttpPost]
