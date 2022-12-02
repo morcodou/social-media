@@ -83,10 +83,9 @@ namespace Post.Command.Api.Test.Controllers
             var id = _fixture.Create<Guid>();
             var command = _fixture.Create<AddCommentCommand>();
             var action = () => _sut.AddCommentAsync(id, command);
-            var message = "Could not retrieve aggregate, client passe incorrect post Id targeting the aggregate!";
 
             // Act
-            await AggregateNotFoundException_ShouldReturnsBadRequest(action, command, message);
+            await AggregateNotFoundException_ShouldReturnsBadRequest(action, command);
         }
     }
 }

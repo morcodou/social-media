@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Post.Command.Api.Commands;
 using Post.Command.Api.Controllers;
@@ -38,6 +39,7 @@ namespace Post.Command.Api.Test.Controllers
             // Assert
             result.Should().NotBeNull();
             var response = result!.Value as PostResponse;
+            result!.StatusCode.Should().Be(StatusCodes.Status201Created);
             response!.Id.Should().NotBeEmpty();
             response!.Message.Should().Be("New post creation request completed successfully!");
             Mock.Get(_dispatcher)

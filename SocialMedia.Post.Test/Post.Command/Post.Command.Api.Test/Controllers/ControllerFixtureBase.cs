@@ -59,7 +59,7 @@ namespace Post.Command.Api.Test.Controllers
             var response = result!.Value as BaseResponse;
             response!.Message.Should().Be(message);
             Mock.Get(_dispatcher)
-                .Verify(x => x.SendAsync(command), Times.AtLeastOnce);
+                .Verify(x => x.SendAsync(It.Is<TCommand>(x => command == null ? x != null : x == command)), Times.AtLeastOnce);
             _logger.VerifyLoggerError(message);
         }
 
@@ -78,12 +78,12 @@ namespace Post.Command.Api.Test.Controllers
 
         protected async Task AggregateNotFoundException_ShouldReturnsBadRequest<TCommand>(
             Func<Task<ActionResult>> action,
-            TCommand command,
-            string message)
+            TCommand command)
             where TCommand : BaseCommand
         {
             // Arrange
             var exception = new AggregateNotFoundException("aggregate_not_found_exception_message");
+            var message = "Could not retrieve aggregate, client passe incorrect post Id targeting the aggregate!";
 
             // Act
             await GivenException_ShouldReturnsBadRequest(action, command, exception, message);
@@ -133,8 +133,16 @@ namespace Post.Command.Api.Test.Controllers
             result.Should().NotBeNull();
             var response = result!.Value as BaseResponse;
             response!.Message.Should().Be(exception.Message);
+
             Mock.Get(_dispatcher)
-                .Verify(x => x.SendAsync(command), Times.AtLeastOnce);
+                .Verify(x => x.SendAsync(It.Is<TCommand>(x =>
+                command == null ? x != null :
+                x == command)
+
+                ), Times.AtLeastOnce);
+
+            Mock.Get(_dispatcher)
+                .Verify(x => x.SendAsync(It.Is<TCommand>(x => command == null ? x != null : x == command)), Times.AtLeastOnce);
             _logger.VerifyLoggerWarning(message);
         }
     }
