@@ -1,3 +1,6 @@
 namespace Post.Command.Domain.Commands;
 
-public class BaseCommand { }
+[ExcludeFromCodeCoverage]
+public class BaseCommand : Message
+{
+}
