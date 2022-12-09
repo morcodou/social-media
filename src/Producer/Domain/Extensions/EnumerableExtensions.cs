@@ -9,4 +9,6 @@ public static class EnumerableExtensions
             action(item);
         }
     }
+
+    public static bool IsNullOrEmpty<T>(this IEnumerable<T> collection) => collection == null || !collection.Any();
 }

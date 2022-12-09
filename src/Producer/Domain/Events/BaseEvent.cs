@@ -1,5 +1,3 @@
-using Post.Command.Domain.Messages;
-
 namespace Post.Command.Domain.Events;
 
 [ExcludeFromCodeCoverage]

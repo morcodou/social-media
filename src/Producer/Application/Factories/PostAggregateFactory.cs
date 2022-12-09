@@ -1,4 +1,4 @@
-﻿namespace Post.Command.Domain.Factories;
+﻿namespace Post.Command.Application.Factories;
 
 public sealed class PostAggregateFactory : IPostAggregateFactory<PostAggregate>
 {

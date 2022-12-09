@@ -1,4 +1,4 @@
-﻿namespace Post.Command.Domain.Factories;
+﻿namespace Post.Command.Application.Interfaces;
 
 public interface IPostAggregateFactory<TPostAggregate> where TPostAggregate : PostAggregateBase
 {
