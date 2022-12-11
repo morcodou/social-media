@@ -1,0 +1,9 @@
+global using System.Diagnostics.CodeAnalysis;
+global using Post.Query.Domain.Entities;
+global using Post.Query.Domain.Events;
+global using Post.Query.Domain.Queries;
+global using Post.Query.Application.Interfaces;
+global using Post.Query.Application.Infrastructure;
+global using Post.Query.Application.Queries;
+global using  Post.Query.Api.Dtos;
+global using Microsoft.AspNetCore.Mvc;
