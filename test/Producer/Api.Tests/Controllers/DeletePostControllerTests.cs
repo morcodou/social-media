@@ -1,12 +1,12 @@
 namespace Post.Command.Api.Controllers;
 
-public class DeletePostControllerTest : ControllerFixtureBase<DeletePostController>
+public class DeletePostControllerTests : ControllerFixtureBase<DeletePostController>
 {
     private readonly DeletePostController _sut;
     private const string _METHODENAME = nameof(DeletePostController.DeletePostAsync);
     private const string _ATTRIBUTETEMPLATE = "{id}";
 
-    public DeletePostControllerTest() => _sut = new(_logger, _dispatcher);
+    public DeletePostControllerTests() => _sut = new(_logger, _dispatcher);
 
     [Fact]
     public void DeletePostController_ShouldBe_Decorated_With_ApiControllerAttribute() =>

@@ -1,14 +1,14 @@
 ﻿
 namespace Post.Command.Application.Handlers;
 
-public class CommandHandlerTest
+public class CommandHandlerTests
 {
     private readonly CommandHandler<PostAggregateBase> _sut;
     private readonly Fixture _fixture;
     private readonly IEventSourcingHandler<PostAggregateBase> _eventSourcingHandler;
     private readonly IPostAggregateFactory<PostAggregateBase> _postAggregateFactory;
 
-    public CommandHandlerTest()
+    public CommandHandlerTests()
     {
         _eventSourcingHandler = Mock.Of<IEventSourcingHandler<PostAggregateBase>>();
         _postAggregateFactory = Mock.Of<IPostAggregateFactory<PostAggregateBase>>();

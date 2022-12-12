@@ -1,12 +1,12 @@
 namespace Post.Command.Api.Controllers;
 
-public class AddCommentControllerTest : ControllerFixtureBase<AddCommentController>
+public class AddCommentControllerTests : ControllerFixtureBase<AddCommentController>
 {
     private readonly AddCommentController _sut;
     private const string _METHODENAME = nameof(AddCommentController.AddCommentAsync);
     private const string _ATTRIBUTETEMPLATE = "{id}";
 
-    public AddCommentControllerTest()
+    public AddCommentControllerTests()
     {
         _sut = new(_logger, _dispatcher);
     }

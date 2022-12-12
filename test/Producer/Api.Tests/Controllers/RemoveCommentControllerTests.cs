@@ -1,12 +1,12 @@
-namespace Post.Command.Api.Test.Controllers;
+namespace Post.Command.Api.Controllers;
 
-public class RemoveCommentControllerTest : ControllerFixtureBase<RemoveCommentController>
+public class RemoveCommentControllerTests : ControllerFixtureBase<RemoveCommentController>
 {
     private readonly RemoveCommentController _sut;
     private const string _METHODENAME = nameof(RemoveCommentController.RemoveCommentAsync);
     private const string _ATTRIBUTETEMPLATE = "{id}";
 
-    public RemoveCommentControllerTest() => _sut = new(_logger, _dispatcher);
+    public RemoveCommentControllerTests() => _sut = new(_logger, _dispatcher);
 
     [Fact]
     public void RemoveCommentController_ShouldBe_Decorated_With_ApiControllerAttribute() =>

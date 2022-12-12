@@ -1,12 +1,12 @@
-namespace Post.Command.Api.Test.Controllers;
+namespace Post.Command.Api.Controllers;
 
-public class LikePostControllerTest : ControllerFixtureBase<LikePostController>
+public class LikePostControllerTests : ControllerFixtureBase<LikePostController>
 {
     private readonly LikePostController _sut;
     private const string _METHODENAME = nameof(LikePostController.LikePostAsync);
     private const string _ATTRIBUTETEMPLATE = "{id}";
 
-    public LikePostControllerTest() => _sut = new(_logger, _dispatcher);
+    public LikePostControllerTests() => _sut = new(_logger, _dispatcher);
 
     [Fact]
     public void LikePostController_ShouldBe_Decorated_With_ApiControllerAttribute() =>

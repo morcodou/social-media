@@ -1,12 +1,12 @@
-namespace Post.Command.Api.Test.Controllers;
+namespace Post.Command.Api.Controllers;
 
-public class EditMessageControllerTest : ControllerFixtureBase<EditMessageController>
+public class EditMessageControllerTests : ControllerFixtureBase<EditMessageController>
 {
     private readonly EditMessageController _sut;
     private const string _METHODENAME = nameof(EditMessageController.EditMessageAsync);
     private const string _ATTRIBUTETEMPLATE = "{id}";
 
-    public EditMessageControllerTest() => _sut = new(_logger, _dispatcher);
+    public EditMessageControllerTests() => _sut = new(_logger, _dispatcher);
 
     [Fact]
     public void EditMessageController_ShouldBe_Decorated_With_ApiControllerAttribute() =>

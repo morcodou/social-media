@@ -1,8 +1,8 @@
 using Post.Command.Application.Dispatchers;
 
-namespace Post.Command.Infrastructure.Test.Dispatchers;
+namespace Post.Command.Infrastructure.Dispatchers;
 
-public class CommandDispatcherTest
+public class CommandDispatcherTests
 {
     private class FakeCommand : BaseCommand
     {
@@ -12,7 +12,7 @@ public class CommandDispatcherTest
     private readonly CommandDispatcher _sut;
     private readonly Fixture _fixture;
 
-    public CommandDispatcherTest()
+    public CommandDispatcherTests()
     {
         _sut = new();
         _fixture = new();

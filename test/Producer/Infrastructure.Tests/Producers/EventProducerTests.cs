@@ -2,7 +2,7 @@ using Microsoft.Extensions.Options;
 
 namespace Post.Command.Infrastructure.Producers;
 
-public class EventProducerTest
+public class EventProducerTests
 {
     private readonly EventProducer _sut;
     private readonly IOptions<ProducerConfig> _producerConfigOptions;
@@ -11,7 +11,7 @@ public class EventProducerTest
 
     private const string _TOPIC_NAME = "mocktopic";
 
-    public EventProducerTest()
+    public EventProducerTests()
     {
         _producerBuilder = Mock.Of<IKafkaProducerBuilder>();
         _producerConfigOptions = Mock.Of<IOptions<ProducerConfig>>();

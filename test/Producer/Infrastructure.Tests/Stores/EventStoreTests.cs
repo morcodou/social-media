@@ -6,14 +6,14 @@ using Post.Command.Application.Infrastructure;
 
 namespace Post.Command.Infrastructure.Stores;
 
-public class EventStoreTest
+public class EventStoreTests
 {
     private readonly EventStore _sut;
     private readonly IEventStoreRepository<EventModel> _eventStoreRepository;
     private readonly IEventProducer _eventProducer;
     private readonly Fixture _fixture;
 
-    public EventStoreTest()
+    public EventStoreTests()
     {
         _eventStoreRepository = Mock.Of<IEventStoreRepository<EventModel>>();
         _eventProducer = Mock.Of<IEventProducer>();

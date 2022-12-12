@@ -1,10 +1,10 @@
-namespace Post.Command.Api.Test.Controllers;
+namespace Post.Command.Api.Controllers;
 
-public class RestoreReadDatabaseControllerTest : ControllerFixtureBase<RestoreReadDatabaseController>
+public class RestoreReadDatabaseControllerTests : ControllerFixtureBase<RestoreReadDatabaseController>
 {
     private readonly RestoreReadDatabaseController _sut;
     private const string _METHODENAME = nameof(RestoreReadDatabaseController.RestoreReadDatabaseAsync);
-    public RestoreReadDatabaseControllerTest()
+    public RestoreReadDatabaseControllerTests()
     {
         _sut = new(_logger, _dispatcher);
     }

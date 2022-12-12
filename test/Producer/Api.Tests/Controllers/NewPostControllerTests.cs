@@ -1,10 +1,10 @@
-namespace Post.Command.Api.Test.Controllers;
+namespace Post.Command.Api.Controllers;
 
-public class NewPostControllerTest : ControllerFixtureBase<NewPostController>
+public class NewPostControllerTests : ControllerFixtureBase<NewPostController>
 {
     private readonly NewPostController _sut;
     private const string _METHODENAME = nameof(NewPostController.NewPostAsync);
-    public NewPostControllerTest()
+    public NewPostControllerTests()
     {
         _sut = new(_logger, _dispatcher);
     }

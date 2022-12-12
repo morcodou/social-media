@@ -2,9 +2,9 @@
 using Post.Command.Application.Infrastructure;
 using Post.Command.Domain.Aggregates;
 
-namespace Post.Command.Infrastructure.Test.Handlers;
+namespace Post.Command.Infrastructure.Handlers;
 
-public class EventSourcingHandlerTest
+public class EventSourcingHandlerTests
 {
     private class FakePostAggregate : AggregateRoot
     {
@@ -17,7 +17,7 @@ public class EventSourcingHandlerTest
     private readonly IEventStore _eventStore;
     private readonly IEventProducer _eventProducer;
 
-    public EventSourcingHandlerTest()
+    public EventSourcingHandlerTests()
     {
         _eventStore = Mock.Of<IEventStore>();
         _eventProducer = Mock.Of<IEventProducer>();

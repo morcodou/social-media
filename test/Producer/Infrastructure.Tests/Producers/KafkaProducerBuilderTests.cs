@@ -1,6 +1,6 @@
 namespace Post.Command.Infrastructure.Producers;
 
-public class KafkaProducerBuilderTest
+public class KafkaProducerBuilderTests
 {
     private readonly KafkaProducerBuilder _sut = new();
 
