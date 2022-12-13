@@ -14,7 +14,6 @@
     <ProjectReference Include="..\..\Post.Common\Post.Common.csproj" />
     <ProjectReference Include="..\Post.Query.Domain\Post.Query.Domain.csproj" />
     <ProjectReference Include="..\Post.Query.Infrastructure\Post.Query.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\..\CQRS.EventSourcing\CQRS.Core\CQRS.Core.csproj" />
   </ItemGroup>
 
 </Project>

@@ -25,7 +25,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\SocialMedia.Post\Post.Command\Post.Command.Infrastructure\Post.Command.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\..\CQRS.EventSourcing\CQRS.Core\CQRS.Core.csproj" />
 
   </ItemGroup>
 </Project>
