@@ -1,0 +1,14 @@
+global using Xunit;
+global using AutoFixture;
+global using Microsoft.Extensions.Logging;
+global using Moq;
+global using FluentAssertions;
+global using System.Linq.Expressions;
+global using Microsoft.EntityFrameworkCore.Query;
+global using Microsoft.EntityFrameworkCore;
+global using Post.Query.Domain.Entities;
+global using Post.Query.Domain.Events;
+global using Post.Query.Domain.Messages;
+global using Post.Query.Infrastructure.DataAccess;
+global using Post.Query.Infrastructure.Repositories;
+global using Post.Query.Infrastructure.Interfaces;

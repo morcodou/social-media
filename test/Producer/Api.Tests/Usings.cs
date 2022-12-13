@@ -1,0 +1,14 @@
+global using Moq;
+global using Xunit;
+global using FluentAssertions;
+global using AutoFixture;
+global using Microsoft.AspNetCore.Http;
+global using Microsoft.AspNetCore.Mvc;
+global using Post.Command.Api.Controllers;
+global using Post.Command.Api.Dtos;
+global using Post.Command.Application.Commands;
+global using Microsoft.AspNetCore.Mvc.Routing;
+global using Microsoft.Extensions.Logging;
+global using Post.Command.Application.Exceptions;
+global using Post.Command.Application.Interfaces;
+global using Post.Command.Domain.Commands;
