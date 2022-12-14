@@ -1,6 +1,5 @@
 ﻿using Post.Command.Application.Handlers;
 using Post.Command.Application.Infrastructure;
-using Post.Command.Domain.Aggregates;
 
 namespace Post.Command.Infrastructure.Handlers;
 
@@ -12,6 +11,8 @@ public class EventSourcingHandlerTests
         {
         }
     }
+
+    // TODO
 
     private readonly EventSourcingHandler<FakePostAggregate> _sut;
     private readonly IEventStore _eventStore;

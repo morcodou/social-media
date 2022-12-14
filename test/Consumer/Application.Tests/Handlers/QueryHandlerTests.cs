@@ -1,7 +1,6 @@
-using Post.Query.Domain.Queries;
+using Post.Query.Application.Infrastructure;
 using Post.Query.Application.Queries;
 using Post.Query.Domain.Entities;
-using Post.Query.Application.Infrastructure;
 
 namespace Post.Query.Application.Handlers;
 

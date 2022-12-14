@@ -1,6 +1,3 @@
-using Post.Query.Application.Infrastructure;
-using Post.Query.Application.Interfaces;
-
 namespace Post.Query.Application.Handlers;
 
 public class QueryHandler : IQueryHandler
