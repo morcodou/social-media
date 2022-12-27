@@ -14,7 +14,7 @@ public class EventStore : IEventStore
         _eventProducer = eventProducer;
     }
 
-    public async Task<List<Guid>> GetAggragateIdsAsync()
+    public async Task<List<Guid>> GetAggregateIdsAsync()
     {
         var eventStream = await _eventStoreRepository.FindAllAsync();
         if (eventStream == null || !eventStream.Any())

@@ -1,6 +1,7 @@
 ﻿using AutoFixture.Kernel;
 using Post.Command.Infrastructure.Models;
 using Post.Command.Infrastructure.MongoCollection;
+using System.Linq.Expressions;
 
 namespace Post.Command.Infrastructure.Repositories;
 
@@ -25,13 +26,15 @@ public class EventStoreRepositoryTests
         // Arrange
         var aggregateId = _fixture.Create<Guid>();
         var eventModels = _fixture.CreateMany<EventModel>().ToList();
+        Func<EventModel, bool> expectedFunc = x => x.AggregateIdentifier == aggregateId;
         Mock.Get(_mongoEventCollection)
-            .Setup(x => x.Find(It.IsAny<Func<EventModel, bool>>()))
+            .Setup(x => x.Find(It.Is<Func<EventModel, bool>>(func => func.IsEqualTo(expectedFunc))))
             .ReturnsAsync(eventModels);
 
         // Act
         var result = await _sut.FindByAggregateId(aggregateId);
 
+        // Assert
         result.Should().BeEquivalentTo(eventModels);
     }
 
@@ -40,13 +43,15 @@ public class EventStoreRepositoryTests
     {
         // Arrange
         var allEventModels = _fixture.CreateMany<EventModel>().ToList();
+        Func<EventModel, bool> expectedFunc = _ => true;
         Mock.Get(_mongoEventCollection)
-            .Setup(x => x.Find(It.IsAny<Func<EventModel, bool>>()))
+            .Setup(x => x.Find(It.Is<Func<EventModel, bool>>(func => func.IsEqualTo(expectedFunc))))
             .ReturnsAsync(allEventModels);
 
         // Act
         var result = await _sut.FindAllAsync();
 
+        // Assert
         result.Should().BeEquivalentTo(allEventModels);
     }
 
@@ -59,16 +64,8 @@ public class EventStoreRepositoryTests
         // Act
         await _sut.SaveAsync(eventModel);
 
+        // Assert
         Mock.Get(_mongoEventCollection)
             .Verify(x => x.InsertOneAsync(eventModel), Times.Once);
     }
-
-    //public EventStoreRepository(IMongoEventCollection<EventModel> mongoEventCollection) =>
-    //   _mongoEventCollection = mongoEventCollection;
-
-    //public async Task<List<EventModel>> FindByAggregateId(Guid aggregateId) => await _mongoEventCollection.Find(x => x.AggregateIdentifier == aggregateId);
-
-    //public async Task<List<EventModel>> FindAllAsync() => await _mongoEventCollection.Find(_ => true);
-
-    // TODO
 }

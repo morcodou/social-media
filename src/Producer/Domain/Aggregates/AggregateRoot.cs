@@ -10,10 +10,12 @@ public abstract class AggregateRoot
         get { return _id; }
         set { value = _id; }
     }
+
     public int Version { get; set; } = -1;
 
-    public IEnumerable<BaseEvent> GetUncommittedChanges() => _changes;
-    public void MarkChangesAsCommitted() => _changes.Clear();
+    public virtual IEnumerable<BaseEvent> GetUncommittedChanges() => _changes;
+
+    public virtual void MarkChangesAsCommitted() => _changes.Clear();
 
     public void ApplyChanges(BaseEvent @event, bool isNew)
     {
@@ -31,6 +33,7 @@ public abstract class AggregateRoot
     }
 
     protected void RaiseEvent(BaseEvent @event) => ApplyChanges(@event, true);
-    public void ReplayEvents(IEnumerable<BaseEvent> events) =>
+
+    public virtual void ReplayEvents(IEnumerable<BaseEvent> events) =>
                 events.ForEach(ev => ApplyChanges(ev, false));
 }

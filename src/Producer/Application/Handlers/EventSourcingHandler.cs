@@ -26,12 +26,12 @@ public class EventSourcingHandler<TAggregate> : IEventSourcingHandler<TAggregate
 
     public async Task RepublishEventsAsync()
     {
-        var aggregateIds = await _eventStore.GetAggragateIdsAsync();
+        var aggregateIds = await _eventStore.GetAggregateIdsAsync();
         if (aggregateIds.IsNullOrEmpty()) return;
         foreach (var aggregateId in aggregateIds)
         {
             var aggregate = await GetByIdAsync(aggregateId);
-            if (aggregate == null) return;
+            if (aggregate == null || aggregate.Version == -1) continue;
             var events = await _eventStore.GetEventsAsync(aggregateId);
             foreach (var @event in events)
             {

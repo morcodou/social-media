@@ -1,6 +1,7 @@
 using Moq.Language;
 using Moq.Language.Flow;
 
+// https://github.com/MichalJankowskii/Moq.EntityFrameworkCore
 namespace Moq
 {
     public static class MoqExtensions
