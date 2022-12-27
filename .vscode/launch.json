@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/SocialMedia.Post/Post.Command/Post.Command.Api/bin/Debug/net6.0/Post.Command.Api.dll",
+            "program": "${workspaceFolder}/src/Producer/Api/bin/Debug/net6.0/Post.Command.Api.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/SocialMedia.Post/Post.Command/Post.Command.Api",
+            "cwd": "${workspaceFolder}/src/Producer/Api",
             "stopAtEntry": false,
             // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
             "serverReadyAction": {
@@ -37,9 +37,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/SocialMedia.Post/Post.Query/Post.Query.Api/bin/Debug/net6.0/Post.Query.Api.dll",
+            "program": "${workspaceFolder}/src/Consumer/Api/bin/Debug/net6.0/Post.Query.Api.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/SocialMedia.Post/Post.Query/Post.Query.Api",
+            "cwd": "${workspaceFolder}/src/Consumer/Api",
             "stopAtEntry": false,
             // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
             "serverReadyAction": {

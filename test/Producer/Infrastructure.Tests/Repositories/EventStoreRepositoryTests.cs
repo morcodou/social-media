@@ -26,11 +26,14 @@ public class EventStoreRepositoryTests
         // Arrange
         var aggregateId = _fixture.Create<Guid>();
         var eventModels = _fixture.CreateMany<EventModel>().ToList();
-        Func<EventModel, bool> expectedFunc = x => x.AggregateIdentifier == aggregateId;
+        // Expression<Func<EventModel, bool>> expectedExpression = x => x.AggregateIdentifier == aggregateId;
+        // Mock.Get(_mongoEventCollection)
+        //     .Setup(x => x.Find(It.Is<Expression<Func<EventModel, bool>>>(func => func.IsEqualTo(expectedExpression))))
+        //     .ReturnsAsync(eventModels);
         Mock.Get(_mongoEventCollection)
-            .Setup(x => x.Find(It.Is<Func<EventModel, bool>>(func => func.IsEqualTo(expectedFunc))))
+            .Setup(x => x.Find(It.IsAny<Expression<Func<EventModel, bool>>>()))
             .ReturnsAsync(eventModels);
-
+        
         // Act
         var result = await _sut.FindByAggregateId(aggregateId);
 
@@ -43,11 +46,14 @@ public class EventStoreRepositoryTests
     {
         // Arrange
         var allEventModels = _fixture.CreateMany<EventModel>().ToList();
-        Func<EventModel, bool> expectedFunc = _ => true;
+        // Expression<Func<EventModel, bool>> expectedExpression  = _ => true;
+        // Mock.Get(_mongoEventCollection)
+        //     .Setup(x => x.Find(It.Is<Expression<Func<EventModel, bool>>>(func => func.IsEqualTo(expectedExpression))))
+        //     .ReturnsAsync(allEventModels);
         Mock.Get(_mongoEventCollection)
-            .Setup(x => x.Find(It.Is<Func<EventModel, bool>>(func => func.IsEqualTo(expectedFunc))))
+            .Setup(x => x.Find(It.IsAny<Expression<Func<EventModel, bool>>>()))
             .ReturnsAsync(allEventModels);
-
+        
         // Act
         var result = await _sut.FindAllAsync();
 

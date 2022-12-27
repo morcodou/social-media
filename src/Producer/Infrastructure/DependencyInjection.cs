@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using MongoDB.Bson.Serialization;
 using Post.Command.Infrastructure.Configuration;
 using Post.Command.Infrastructure.Models;
+using Post.Command.Infrastructure.MongoCollection;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -11,10 +12,14 @@ public static class DependencyInjection
     public static IServiceCollection RegisterInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
         RegisterEventsMapping();
-        configuration
-            .BinConfigurationOption<MongoDbConfiguration>()
-            .BinConfigurationOption<ProducerConfig>();
+        // configuration
+        //     .BinConfigurationOption<MongoDbConfiguration>()
+        //     .BinConfigurationOption<ProducerConfig>();
+
+        // services.Configure<MongoDbConfiguration>(configuration.GetSection(nameof(MongoDbConfiguration)));
+        // services.Configure<ProducerConfig>(configuration.GetSection(nameof(ProducerConfig)));
         services
+            .AddScoped<IMongoEventCollection<EventModel>, MongoEventModelCollection>()
             .AddScoped<IEventStoreRepository<EventModel>, EventStoreRepository>()
             .AddScoped<IKafkaProducerBuilder, KafkaProducerBuilder>()
             .AddScoped<IEventProducer, EventProducer>()
@@ -33,16 +38,5 @@ public static class DependencyInjection
         BsonClassMap.RegisterClassMap<CommentUpdatedEvent>();
         BsonClassMap.RegisterClassMap<CommentAddedEvent>();
         BsonClassMap.RegisterClassMap<CommentRemovedEvent>();
-    }
-
-    private static IConfiguration BinConfigurationOption<TOption>(this IConfiguration configuration)
-            where TOption : class, new()
-    {
-        TOption option = new();
-        configuration
-            .GetSection(nameof(TOption))
-            .Bind(option);
-
-        return configuration;
     }
 }

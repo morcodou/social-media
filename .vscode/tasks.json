@@ -43,7 +43,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/SocialMedia.Post/Post.Command/Post.Command.Api/Post.Command.Api.csproj"
+                "${workspaceFolder}/src/Producer/Api/Api.csproj"
             ],
             "problemMatcher": "$msCompile"
         }
