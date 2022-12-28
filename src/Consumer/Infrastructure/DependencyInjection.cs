@@ -1,8 +1,4 @@
-using Confluent.Kafka;
-using Microsoft.EntityFrameworkCore;
 using Post.Query.Infrastructure.Consumers;
-using Post.Query.Infrastructure.DataAccess;
-using Post.Query.Infrastructure.Interfaces;
 using Post.Query.Infrastructure.Handlers;
 using Post.Query.Infrastructure.Repositories;
 using Microsoft.Extensions.Configuration;
@@ -18,9 +14,6 @@ public static class DependencyInjection
        services
             .AddDbContext<IDatabaseContext, DatabaseContext>(configureDbContext)
             .AddSingleton<IDatabaseContextFactory>(new DatabaseContextFactory(configureDbContext));
-
-        configuration
-            .BinConfigurationOption<ConsumerConfig>();
 
         services
             .AddScoped<ICommentRepository, CommentRepository>()

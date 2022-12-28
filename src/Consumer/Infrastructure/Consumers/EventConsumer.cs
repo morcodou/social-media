@@ -1,7 +1,6 @@
 ﻿using Confluent.Kafka;
 using Microsoft.Extensions.Options;
 using Post.Query.Infrastructure.Converters;
-using Post.Query.Domain.Events;
 using System.Text.Json;
 
 namespace Post.Query.Infrastructure.Consumers;

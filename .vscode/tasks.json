@@ -43,7 +43,8 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/src/Producer/Api/Api.csproj"
+                "${workspaceFolder}/src/Producer/Api/Api.csproj",
+                "${workspaceFolder}/src/Consumer/Api/Api.csproj"
             ],
             "problemMatcher": "$msCompile"
         }
