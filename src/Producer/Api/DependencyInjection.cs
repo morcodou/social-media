@@ -1,4 +1,6 @@
 using Confluent.Kafka;
+using Post.Command.Api.Interfaces;
+using Post.Command.Api.Services;
 using Post.Command.Infrastructure.Configuration;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -7,6 +9,7 @@ public static class DependencyInjection
 {
     public static IServiceCollection RegisterServices(this IServiceCollection services, IConfiguration configuration) =>
         services
+            .AddScoped<IServerService, ServerService>()
             .Configure<MongoDbConfiguration>(configuration.GetSection(nameof(MongoDbConfiguration)))
             .Configure<ProducerConfig>(configuration.GetSection(nameof(ProducerConfig)))
             .RegisterInfrastructureServices(configuration)
